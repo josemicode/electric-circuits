@@ -3,10 +3,10 @@
 
 using namespace std;
 
-typedef struct Component{
+typedef struct{
 	char type;
 	double value;
-};
+}Component;
 
 class ComplexCircuit{
 	private:
@@ -44,8 +44,46 @@ class ComplexCircuit{
 			
 			return res;
 		}
-}
+};
 
 int main(){
 	
+	double value, nodeCurrent, meshTension;
+	char choice;
+	bool loop = true;
+	
+	ComplexCircuit cc;
+	
+	do{
+		cout << "R = Resistor \nV = Voltage source \nD = Done entering components" << endl;
+		cin >> choice;
+	
+		choice = toupper(choice);
+		
+		switch(choice){
+			case 'R':
+				cout << "\nValue in Ohms: ";
+				cin >> value;
+				
+				cc.addComponent(choice, value);
+				break;
+			case 'V':
+				cout << "\nValue in Volts: ";
+				cin >> value;
+				
+				cc.addComponent(choice, value);
+				break;
+			case 'D':
+				loop = false;
+			default:
+				cout << endl;
+				break;
+		}
+	}while(loop);
+	
+	nodeCurrent = cc.calcNodeCurrent();
+	meshTension = cc.calcMeshTension();
+	
+	cout << "This node's current is " << nodeCurrent << " A" << endl;
+	cout << "This mesh's tension is " << meshTension << " V" << endl;
 }
